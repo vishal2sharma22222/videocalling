@@ -9,6 +9,8 @@ router.post('/send-otp', otpLimiter, authController.sendOTP);
 
 // Verify OTP and login/register
 router.post('/verify-otp', authLimiter, authController.verifyOTP);
+router.post('/register', authController.register);
+router.post('/login', authController.login);
 
 // Guest login
 router.post('/guest-login', authController.guestLogin);
