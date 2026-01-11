@@ -152,16 +152,16 @@ exports.verifyOTP = async (req, res) => {
 // Guest login
 exports.guestLogin = async (req, res) => {
     try {
-        const { deviceId, deviceInfo } = req.body;
+        const { deviceId, deviceInfo, name } = req.body;
 
         // Generate guest token
         const guestToken = require('uuid').v4();
 
         // Create guest user
         const [result] = await db.query(
-            `INSERT INTO users (is_guest, guest_token, device_id, device_info, ip_address, is_online) 
-             VALUES (TRUE, ?, ?, ?, ?, TRUE)`,
-            [guestToken, deviceId, JSON.stringify(deviceInfo), req.ip]
+            `INSERT INTO users (is_guest, guest_token, name, device_id, device_info, ip_address, is_online) 
+             VALUES (TRUE, ?, ?, ?, ?, ?, TRUE)`,
+            [guestToken, name || 'Stranger', deviceId, JSON.stringify(deviceInfo), req.ip]
         );
 
         const userId = result.insertId;
